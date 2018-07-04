@@ -2,10 +2,10 @@ package com.egod.requestqueue;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.context.annotation.Import;
 
+@Import(ApplicationProperties.class)
 @SpringBootApplication
-@RestController
 public class Application {
 
     public static void main(String[] args) {

@@ -10,11 +10,11 @@ import java.io.*;
 
 public class ToConsoleLoggerTest {
 
-    HttpEntity mockEntity;
-    public final String REQUEST_BODY = "{Body}";
+    private HttpEntity mockEntity;
+    private final String REQUEST_BODY = "{Body}";
 
     @Before
-    public void setUpTest(){
+    public void setUpTest() {
         mockEntity = Mockito.mock(HttpEntity.class);
         Mockito.when(mockEntity.getBody()).thenReturn(REQUEST_BODY);
     }
@@ -22,9 +22,9 @@ public class ToConsoleLoggerTest {
     @Test
     public void typeTwoProperRequestReceived_requestHandled_logsBodyToConsole() throws IOException {
         ToConsoleLogger logger = new ToConsoleLogger();
-        java.io.ByteArrayOutputStream out = new java.io.ByteArrayOutputStream();
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
         System.setOut(new java.io.PrintStream(out));
         logger.handleEvent(mockEntity);
-        Assert.assertTrue(REQUEST_BODY.contentEquals(out.toString().trim()));
+        Assert.assertTrue(REQUEST_BODY.concat("\r\n").contentEquals(out.toString()));
     }
 }
