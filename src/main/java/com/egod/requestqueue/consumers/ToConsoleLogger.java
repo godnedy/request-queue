@@ -9,4 +9,8 @@ public class ToConsoleLogger implements RequestConsumer {
     public void handleEvent(HttpEntity request){
         System.out.println("body : " + request.getBody());
     }
+
+    public void test(){
+
+    }
 }
