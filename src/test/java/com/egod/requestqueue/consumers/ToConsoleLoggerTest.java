@@ -1,22 +1,28 @@
 package com.egod.requestqueue.consumers;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
+import org.mockito.Mock;
 import org.springframework.http.HttpEntity;
 
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.initMocks;
 
 public class ToConsoleLoggerTest {
 
-    private HttpEntity mockEntity;
     private final String REQUEST_BODY = "{Body}";
+
+    @Mock
+    private HttpEntity mockEntity;
 
     @Before
     public void setUpTest() {
-        mockEntity = Mockito.mock(HttpEntity.class);
-        Mockito.when(mockEntity.getBody()).thenReturn(REQUEST_BODY);
+        initMocks(this);
+        when(mockEntity.getBody()).thenReturn(REQUEST_BODY);
     }
 
     @Test
@@ -25,6 +31,6 @@ public class ToConsoleLoggerTest {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         System.setOut(new java.io.PrintStream(out));
         logger.handleEvent(mockEntity);
-        Assert.assertTrue(REQUEST_BODY.concat("\r\n").contentEquals(out.toString()));
+        assertTrue(REQUEST_BODY.concat("\r\n").contentEquals(out.toString()));
     }
 }
