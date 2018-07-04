@@ -7,6 +7,6 @@ public class ToConsoleLogger implements RequestConsumer {
 
     @Override
     public void handleEvent(HttpEntity request){
-        System.out.println(request.getBody());
+        System.out.println("body: " + request.getBody());
     }
 }
