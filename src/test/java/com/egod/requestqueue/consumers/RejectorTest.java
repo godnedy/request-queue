@@ -1,11 +1,13 @@
 package com.egod.requestqueue.consumers;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class RejectorTest {
 
     @Test
-    public void typeTwoRequestReceived_requestHandled_returns422(){ //422 Unprocessable Entity
+    @Ignore
+    public void messageReceived_messageHandled_messageRejected(){ //422 Unprocessable Entity
 
     }
 

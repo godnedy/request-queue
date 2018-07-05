@@ -1,57 +1,72 @@
 package com.egod.requestqueue.consumers;
 
+import com.egod.requestqueue.ApplicationProperties;
+import com.egod.requestqueue.amqp.RabbitMQProperties;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.mockito.Mock;
-import org.springframework.http.HttpEntity;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.*;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.when;
-import static org.mockito.MockitoAnnotations.initMocks;
 
+
+@SpringBootTest
+@RunWith(SpringJUnit4ClassRunner.class)
+@EnableConfigurationProperties({ApplicationProperties.class, RabbitMQProperties.class})
 public class ToFileLoggerTest {
 
-    private final String FILE_NAME = "file.txt";
-    private final String REQUEST_BODY = "{Body}";
+    private final String MESSAGE = "Message";
+    private final String MESSAGE2 = "Additional";
+
+    @Autowired
+    private ApplicationProperties properties;
 
     private File file;
 
-    @Mock
-    private HttpEntity mockEntity;
-
     @Before
     public void setUp() {
-        file = new File(FILE_NAME);
-        initMocks(this);
-        when(mockEntity.getBody()).thenReturn(REQUEST_BODY);
+        file = new File(properties.getFileName());
     }
 
-    @Ignore
     @Test
-    public void typeTwoProperRequestReceived_fileExists_logsToFile() throws IOException {
-//        file.createNewFile();
-//        ToFileLogger logger = new ToFileLogger(FILE_NAME);
-//        logger.handleEvent(mockEntity);
-//        assertTrue(REQUEST_BODY.equals(readLineFromFile().trim()));
-    }
-@Ignore
-    @Test
-    public void typeTwoProperRequestReceived_fileNotExists_createsFileAndLogsToFile() throws IOException {
-//        ToFileLogger logger = new ToFileLogger(FILE_NAME);
-//        logger.handleEvent(mockEntity);
-//        assertTrue(file.exists());
-//        assertTrue(REQUEST_BODY.equals(readLineFromFile().trim()));
+    public void messageReceived_fileExists_logsToFile() throws IOException {
+        file.createNewFile();
+        ToFileLogger logger = new ToFileLogger(properties);
+        logger.handleEvent(MESSAGE);
+        assertTrue(MESSAGE.equals(readLines().trim()));
     }
 
-    private String readLineFromFile() throws IOException {
+    private String readLines() throws IOException {
         try(FileInputStream inputStream = new FileInputStream(file);
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
-            return reader.readLine();
+            return reader.lines().collect(Collectors.joining());
         }
+    }
+
+    @Test
+    public void messageReceived_fileNotExists_createsFileAndLogsToFile() throws IOException {
+        ToFileLogger logger = new ToFileLogger(properties);
+        logger.handleEvent(MESSAGE);
+        assertTrue(file.exists());
+        assertTrue(MESSAGE.equals(readLines().trim()));
+    }
+
+    @Test
+    public void messageReceived_dataAlreadyInFile_appendsNewDataToFile() throws IOException {
+        file.createNewFile();
+        ToFileLogger logger = new ToFileLogger(properties);
+        logger.handleEvent(MESSAGE);
+        logger.handleEvent(MESSAGE2);
+        assertTrue(MESSAGE.concat(MESSAGE2).equals(readLines().trim()));
     }
 
     @After

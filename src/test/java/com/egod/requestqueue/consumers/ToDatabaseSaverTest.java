@@ -3,27 +3,22 @@ package com.egod.requestqueue.consumers;
 import com.egod.requestqueue.request.domain.Request;
 import com.egod.requestqueue.request.persistance.RequestRepository;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.http.HttpEntity;
+
 import static org.mockito.AdditionalAnswers.returnsFirstArg;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class ToDatabaseSaverTest {
 
-    private final String REQUEST_BODY = "{Body}";
+    private final String MESSAGE = "Message";
 
     private ToDatabaseSaver saver;
-
-    @Mock
-    private HttpEntity mockEntity;
 
     @Mock
     private RequestRepository repository;
@@ -31,19 +26,17 @@ public class ToDatabaseSaverTest {
     @Before
     public void setUpTest() {
         initMocks(this);
-        when(mockEntity.getBody()).thenReturn(REQUEST_BODY);
         doAnswer(returnsFirstArg()).when(repository).save(any(Request.class));
         saver = new ToDatabaseSaver(repository);
     }
 
-    @Ignore
     @Test
-    public void typeTwoProperRequestReceived_requestHandled_savesToDatabase() {
-//        //given
-//        //when
-//        saver.handleEvent(mockEntity);
-//        //then
-//        verify(repository, Mockito.times(1)).save(any());
-//        verify(repository).save(argThat(aBar -> REQUEST_BODY.equals(aBar.getRequestBody())));
+    public void messageReceived_messageHandled_savesToDatabase() {
+        //given
+        //when
+        saver.handleEvent(MESSAGE);
+        //then
+        verify(repository, Mockito.times(1)).save(any());
+        verify(repository).save(argThat(aBar -> MESSAGE.equals(aBar.getMessage())));
     }
 }

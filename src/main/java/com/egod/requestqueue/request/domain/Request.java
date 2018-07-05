@@ -15,7 +15,7 @@ import java.time.LocalTime;
 public class Request {
 
     public Request(String message){
-        this.requestBody = message;
+        this.message = message;
         this.timestamp = LocalTime.now();
     }
 
@@ -25,7 +25,7 @@ public class Request {
     private Long id;
 
     @Column
-    private String requestBody;
+    private String message;
 
     @Column
     private LocalTime timestamp;

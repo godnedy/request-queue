@@ -22,7 +22,7 @@ public class Publisher {
         connectionFactory.setHost(properties.getHost());
         Connection connection = connectionFactory.newConnection();
         Channel channel = connection.createChannel();
-        String message = request.getRequestBody();
+        String message = request.getMessage();
         channel.queueDeclare(properties.getQueueName(), false, false, false, null);
         channel.basicPublish("", properties.getQueueName(), null, message.getBytes());
         System.out.println(" [x] Sent '" + message + "'");
