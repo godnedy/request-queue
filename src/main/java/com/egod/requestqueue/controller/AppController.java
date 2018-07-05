@@ -5,11 +5,14 @@ import com.egod.requestqueue.request.domain.Request;
 import com.egod.requestqueue.request.persistance.RequestRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.io.IOException;
-import java.util.concurrent.TimeoutException;
 
 @RestController
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -19,14 +22,15 @@ public class AppController {
     private final RequestRepository repository;
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public String receive(@Valid @RequestBody ExtendedRequest extendedRequest) {
+    public ResponseEntity<?> receive(@Valid @RequestBody ExtendedRequest extendedRequest) {
         try {
             publisher.publish(extendedRequest);
         } catch (Exception e) {
-            throw new RuntimeException("Request queue unavailable");
+            return new ResponseEntity<>("Adding request to queue impossible", HttpStatus.ACCEPTED);
         }
-        return extendedRequest.getMessage();
+        return new ResponseEntity<>(HttpStatus.OK);
     }
+
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public Iterable<Request> getAll(){
