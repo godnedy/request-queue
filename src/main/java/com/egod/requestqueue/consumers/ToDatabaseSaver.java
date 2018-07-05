@@ -1,8 +1,7 @@
 package com.egod.requestqueue.consumers;
 
-import com.egod.requestqueue.RequestConsumer;
-import com.egod.requestqueue.domain.Request;
-import com.egod.requestqueue.repository.RequestRepository;
+import com.egod.requestqueue.request.domain.Request;
+import com.egod.requestqueue.request.persistance.RequestRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -14,7 +13,7 @@ public class ToDatabaseSaver implements RequestConsumer{
     private final RequestRepository repository;
 
     @Override
-    public void handleEvent(HttpEntity request) {
-        repository.save(new Request(request));
+    public void handleEvent(String message) {
+        repository.save(new Request(message));
     }
 }

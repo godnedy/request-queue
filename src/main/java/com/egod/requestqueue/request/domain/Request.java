@@ -1,4 +1,4 @@
-package com.egod.requestqueue.domain;
+package com.egod.requestqueue.request.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,10 +17,11 @@ import java.time.LocalTime;
 @Entity
 public class Request {
 
-    public Request(HttpEntity request){
-        this.requestBody = request.getBody().toString();
+    public Request(String message){
+        this.requestBody = message;
         this.timestamp = LocalTime.now();
     }
+
 
     @Id
     @GeneratedValue

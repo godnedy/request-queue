@@ -1,6 +1,5 @@
 package com.egod.requestqueue.consumers;
 
-import com.egod.requestqueue.RequestConsumer;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.http.HttpEntity;
@@ -16,13 +15,13 @@ public class ToFileLogger implements RequestConsumer {
 
     @Override
     @SneakyThrows
-    public void handleEvent(HttpEntity request) throws IOException {
+    public void handleEvent(String message) throws IOException {
         File file = new File(pathToFile);
         if (!file.exists()) {
             file.createNewFile();
         }
         try (PrintWriter out = new PrintWriter(pathToFile)) {
-            out.println(request.getBody());
+            out.println(message);
         }
     }
 }
