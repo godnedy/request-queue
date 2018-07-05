@@ -6,11 +6,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-@RequiredArgsConstructor
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Component
 public class ToDatabaseSaver implements RequestConsumer{
 
-    @Autowired
     private final RequestRepository repository;
 
     @Override

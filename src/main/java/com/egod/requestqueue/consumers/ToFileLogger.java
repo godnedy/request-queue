@@ -3,13 +3,13 @@ package com.egod.requestqueue.consumers;
 import com.egod.requestqueue.ApplicationProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
 
-@RequiredArgsConstructor
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Component
 public class ToFileLogger implements RequestConsumer {
 
@@ -17,7 +17,7 @@ public class ToFileLogger implements RequestConsumer {
 
     @Override
     @SneakyThrows
-    public void handleEvent(String message) throws IOException {
+    public void handleEvent(String message) {
         File file = new File(properties.getFileName());
         if (!file.exists()) {
             file.createNewFile();

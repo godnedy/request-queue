@@ -5,26 +5,24 @@ import com.egod.requestqueue.consumers.RequestConsumerFactory;
 import com.rabbitmq.client.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
-import static com.egod.requestqueue.amqp.Publisher.QUEUE_NAME;
 
-@Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class Receiver {
 
-    @Autowired
-    RequestConsumerFactory requestConsumerFactory;
+    private final RabbitMQProperties properties;
+    private final RequestConsumerFactory requestConsumerFactory;
 
     public void receive() throws IOException, TimeoutException {
         ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost("localhost");
+        factory.setHost(properties.getHost());
         Connection connection = factory.newConnection();
         Channel channel = connection.createChannel();
 
-        channel.queueDeclare(QUEUE_NAME, false, false, false, null);
+        channel.queueDeclare(properties.getQueueName(), false, false, false, null);
         System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
 
         Consumer consumer = new DefaultConsumer(channel) {
@@ -37,9 +35,6 @@ public class Receiver {
                 requestConsumer.handleEvent(message);
             }
         };
-        channel.basicConsume(QUEUE_NAME, true, consumer);
+        channel.basicConsume(properties.getQueueName(), true, consumer);
     }
-
-
-
 }

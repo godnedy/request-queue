@@ -1,9 +1,7 @@
 package com.egod.requestqueue.request.domain;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.http.HttpEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,7 +11,6 @@ import java.time.LocalTime;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 public class Request {
 

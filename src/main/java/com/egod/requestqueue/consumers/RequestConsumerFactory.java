@@ -1,10 +1,12 @@
 package com.egod.requestqueue.consumers;
 
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 
-@AllArgsConstructor
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Component
 public class RequestConsumerFactory {
 
@@ -13,24 +15,21 @@ public class RequestConsumerFactory {
     private final ToFileLogger toFileLogger;
     private final ToDatabaseSaver toDatabaseSaver;
 
-
     public RequestConsumer createConsumer(String message) {
-        if (message.startsWith("Type1")){
-            return rejector;
-        }
-        if(message.startsWith("Type2")){
-            return toConsoleLogger;
-        }
-
-        if(message.startsWith("Type3")){
+        if(message.startsWith("Type1")){
             return toDatabaseSaver;
         }
-        if(message.startsWith("Type4")){
+        else if (message.startsWith("Type2")){
+            return rejector;
+        }
+        else if(message.startsWith("Type3")) {
             return toFileLogger;
         }
-        else
+        else if(message.startsWith("Type2")){
+            return toConsoleLogger;
+        }
+        else {
             return null; //TODO should throw exception
+        }
     }
-
-
 }
