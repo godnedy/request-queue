@@ -1,7 +1,8 @@
 package com.egod.requestqueue.consumers;
 
-import org.springframework.http.HttpEntity;
+import org.springframework.stereotype.Component;
 
+@Component
 public class Rejector implements RequestConsumer {
 
     @Override

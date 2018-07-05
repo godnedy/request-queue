@@ -5,3 +5,5 @@ build/
 
 target/
 *.log
+
+file.txt

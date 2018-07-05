@@ -7,18 +7,18 @@ import com.rabbitmq.client.ConnectionFactory;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
 @AllArgsConstructor
-//@NoArgsConstructor
+@Service
 public class Publisher {
 
-    public static final String QUEUE_NAME = "request queue";
+    public static final String QUEUE_NAME = "request_queue";
 
-    @SneakyThrows
-    public static void publish(Request request) {
+    public void publish(Request request) throws IOException, TimeoutException {
         ConnectionFactory connectionFactory = new ConnectionFactory();
         connectionFactory.setHost("localhost");
         Connection connection = connectionFactory.newConnection();
