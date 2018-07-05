@@ -1,4 +1,4 @@
-package com.egod.requestqueue.controller;
+package com.egod.requestqueue.request;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;

@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,23 +18,24 @@ import java.io.*;
 import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.initMocks;
 
 
-@SpringBootTest
-@RunWith(SpringJUnit4ClassRunner.class)
-@EnableConfigurationProperties({ApplicationProperties.class, RabbitMQProperties.class})
 public class ToFileLoggerTest {
 
     private final String MESSAGE = "Message";
     private final String MESSAGE2 = "Additional";
 
-    @Autowired
+    @Mock
     private ApplicationProperties properties;
 
     private File file;
 
     @Before
     public void setUp() {
+        initMocks(this);
+        when(properties.getFileName()).thenReturn("testfile.txt");
         file = new File(properties.getFileName());
     }
 

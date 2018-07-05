@@ -2,7 +2,7 @@ package com.egod.requestqueue.amqp;
 
 import com.egod.requestqueue.consumers.RequestConsumer;
 import com.egod.requestqueue.consumers.RequestConsumerFactory;
-import com.egod.requestqueue.controller.ExtendedRequest;
+import com.egod.requestqueue.request.ExtendedRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rabbitmq.client.*;
 import lombok.RequiredArgsConstructor;

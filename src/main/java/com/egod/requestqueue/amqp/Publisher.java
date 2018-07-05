@@ -1,6 +1,6 @@
 package com.egod.requestqueue.amqp;
 
-import com.egod.requestqueue.controller.ExtendedRequest;
+import com.egod.requestqueue.request.ExtendedRequest;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;

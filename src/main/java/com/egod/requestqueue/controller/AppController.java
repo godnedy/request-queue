@@ -1,6 +1,7 @@
 package  com.egod.requestqueue.controller;
 
 import com.egod.requestqueue.amqp.Publisher;
+import com.egod.requestqueue.request.ExtendedRequest;
 import com.egod.requestqueue.request.domain.Request;
 import com.egod.requestqueue.request.persistance.RequestRepository;
 import lombok.RequiredArgsConstructor;

@@ -1,5 +1,0 @@
-fileName: "testfile.txt"
-
-rabbitmq:
-  queue-name: "request-queue"
-  host: "localhost"
