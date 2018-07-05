@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
@@ -18,9 +19,13 @@ public class AppController {
     private final RequestRepository repository;
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public String receive(@RequestBody Request request) throws IOException, TimeoutException {
-        publisher.publish(request);
-        return request.getMessage();
+    public String receive(@Valid @RequestBody ExtendedRequest extendedRequest) {
+        try {
+            publisher.publish(extendedRequest);
+        } catch (Exception e) {
+            throw new RuntimeException("Request queue unavailable");
+        }
+        return extendedRequest.getMessage();
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)

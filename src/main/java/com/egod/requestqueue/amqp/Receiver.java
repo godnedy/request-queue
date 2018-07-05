@@ -2,6 +2,8 @@ package com.egod.requestqueue.amqp;
 
 import com.egod.requestqueue.consumers.RequestConsumer;
 import com.egod.requestqueue.consumers.RequestConsumerFactory;
+import com.egod.requestqueue.controller.ExtendedRequest;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rabbitmq.client.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,18 +25,32 @@ public class Receiver {
         Channel channel = connection.createChannel();
 
         channel.queueDeclare(properties.getQueueName(), false, false, false, null);
-        System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
+        System.out.println(" [*] Waiting for messages");
 
         Consumer consumer = new DefaultConsumer(channel) {
             @Override
-            public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body)
-                    throws IOException {
-                String message = new String(body, "UTF-8");
-                System.out.println(" [x] Received '" + message + "'");
-                RequestConsumer requestConsumer = requestConsumerFactory.createConsumer(message);
-                requestConsumer.handleEvent(message);
+            public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) {
+                ExtendedRequest extendedRequest = createExtendedRequest(body);
+                System.out.println(" [x] Received '" + extendedRequest.getMessage() + "'");
+                RequestConsumer requestConsumer = null;
+                try {
+                    requestConsumer = requestConsumerFactory.createConsumer(extendedRequest.getType());
+                    requestConsumer.handleEvent(extendedRequest.getMessage());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         };
         channel.basicConsume(properties.getQueueName(), true, consumer);
+    }
+
+    private ExtendedRequest createExtendedRequest(byte[] body) {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return mapper.readValue(new String(body), ExtendedRequest.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new ExtendedRequest("", "");
     }
 }
