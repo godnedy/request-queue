@@ -1,13 +1,17 @@
 ## How to use ##
 request-queue is an implementation of message queue. It uses rabbitmq for asynchronous publishing and receiving requests from queue depending on provided request type.
 Requests are handled in different ways while being taken out from queue.
-Type1 - saves message to DB
-Type2 - rejects request
-Type3 - logs message to File
-Type4 - logs message to console
+
+- Type1 - saves message to DB
+
+- Type2 - rejects request
+
+- Type3 - logs message to File
+
+- Type4 - logs message to console
 
 ## Creating .jar file
-In order to create .jar file execute: mvn clean package
+In order to create .jar file execute: mvn clean package from root directory of the project
 
 ## Running application
 
@@ -67,7 +71,7 @@ In order to run application start docker container with rabbitmq server on defau
           -H 'Cache-Control: no-cache' \
           -H 'Content-Type: application/json' \
           -d '{"type":"Type1",
-        	   "message": "some message"}'```
+        	   "message": "some message"}'
     
  *Retrieve list of requests*
   ----
