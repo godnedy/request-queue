@@ -22,7 +22,7 @@ public class AppController {
     private final Publisher publisher;
     private final RequestRepository repository;
 
-    @RequestMapping(value = "/messages", method = RequestMethod.POST)
+    @RequestMapping(value = "/requests", method = RequestMethod.POST)
     public ResponseEntity<?> receive(@Valid @RequestBody ExtendedRequest extendedRequest) {
         try {
             publisher.publish(extendedRequest);
@@ -33,7 +33,7 @@ public class AppController {
     }
 
 
-    @RequestMapping(value = "/messages", method = RequestMethod.GET)
+    @RequestMapping(value = "/requests", method = RequestMethod.GET)
     public Iterable<Request> getAll(){
         return repository.findAll();
     }

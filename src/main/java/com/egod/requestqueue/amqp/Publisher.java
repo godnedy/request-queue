@@ -23,8 +23,8 @@ public class Publisher {
         Connection connection = connectionFactory.newConnection();
         Channel channel = connection.createChannel();
         channel.queueDeclare(properties.getQueueName(), false, false, false, null);
-        channel.basicPublish("", properties.getQueueName(), null, request.toString().getBytes());
-        System.out.println(" [x] Sent '" + request.toString() + "'");
+        channel.basicPublish("", properties.getQueueName(), null, request.toJSONString().getBytes());
+        System.out.println(" [x] Sent '" + request.toJSONString() + "'");
         channel.close();
         connection.close();
     };

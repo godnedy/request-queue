@@ -1,6 +1,7 @@
 package com.egod.requestqueue.request;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
@@ -9,6 +10,7 @@ import javax.validation.constraints.NotNull;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class ExtendedRequest {
 
     @NotNull
@@ -17,13 +19,8 @@ public class ExtendedRequest {
     @NotNull
     private String message;
 
-    public ExtendedRequest(String type, String message){
-        this.type = type;
-        this.message = message;
-    }
-
     @SneakyThrows
-    public String toString(){
+    public String toJSONString(){
         ObjectMapper mapper = new ObjectMapper();
         return mapper.writeValueAsString(this);
     }

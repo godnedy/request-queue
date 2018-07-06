@@ -1,6 +1,6 @@
 package com.egod.requestqueue.consumers;
 
-public interface RequestConsumer { // TODO ewentualnie zamienic na interfejs funkcyjny
+public interface RequestConsumer {
 
     void handleEvent(String message);
 }

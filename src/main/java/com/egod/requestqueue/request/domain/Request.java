@@ -1,5 +1,6 @@
 package com.egod.requestqueue.request.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +11,7 @@ import javax.persistence.Id;
 import java.time.LocalTime;
 
 @Data
+@AllArgsConstructor
 @NoArgsConstructor
 @Entity
 public class Request {

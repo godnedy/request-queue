@@ -13,10 +13,13 @@ public class ToConsoleLoggerTest {
 
     @Test
     public void messageReceived_messageHandled_logsMessageToConsole() throws IOException {
+        //given
         ToConsoleLogger logger = new ToConsoleLogger();
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         System.setOut(new java.io.PrintStream(out));
+        //when
         logger.handleEvent(MESSAGE);
+        //then
         assertTrue(MESSAGE.equals(out.toString().trim()));
     }
 }
