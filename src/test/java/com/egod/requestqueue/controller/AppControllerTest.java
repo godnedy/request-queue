@@ -40,7 +40,7 @@ public class AppControllerTest {
 
 
     private final String GETALL_URL = "/requests";
-    public static final Request[] REQUESTS_FAKE_DB = {new Request(1L, "Message1", LocalTime.now()),
+    private static final Request[] REQUESTS_FAKE_DB = {new Request(1L, "Message1", LocalTime.now()),
             new Request(2L, "Message2", LocalTime.now())};
 
     private MockMvc mockMvc;
@@ -88,7 +88,7 @@ public class AppControllerTest {
         //when
         mockMvc.perform(post(POST_URL)
                 .contentType(APPLICATION_JSON_UTF8)
-                .content(noTypeGivenExtendedRequest.toJSONString()))
+                .content(noMessageGivenExtendedRequest.toJSONString()))
                 .andDo(print())
         //then
                 .andExpect(status().isBadRequest());
@@ -113,7 +113,7 @@ public class AppControllerTest {
         when(repository.findAll()).thenReturn(new PageImpl<>(newArrayList(REQUESTS_FAKE_DB)));
         //when
         mockMvc.perform(get(GETALL_URL))
-                //then
+        //then
                 .andExpect(MockMvcResultMatchers.content().contentType(APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk());
         verify(repository)
@@ -126,7 +126,7 @@ public class AppControllerTest {
         when(repository.findAll()).thenReturn(new PageImpl<>(newArrayList(REQUESTS_FAKE_DB)));
         //when
         mockMvc.perform(get(GETALL_URL))
-                //then
+        //then
                 .andExpect(jsonPath("$.content", hasSize(2)))
                 .andExpect(jsonPath("$.content[*].message", hasItems(REQUESTS_FAKE_DB[0].getMessage())))
                 .andExpect(jsonPath("$.content[*].message", hasItems(REQUESTS_FAKE_DB[1].getMessage())));

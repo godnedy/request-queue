@@ -34,8 +34,7 @@ public class Receiver {
                 System.out.println(" [x] Received '" + extendedRequest.getMessage() + "'");
                 RequestConsumer requestConsumer = null;
                 try {
-                    requestConsumer = requestConsumerFactory.createConsumer(extendedRequest.getType());
-                    requestConsumer.handleEvent(extendedRequest.getMessage());
+                    requestConsumerFactory.createConsumer(extendedRequest.getType()).handleEvent(extendedRequest.getMessage());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

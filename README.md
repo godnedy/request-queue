@@ -1,5 +1,10 @@
 ## How to use ##
-request-queue is an implementation of message queue. It uses rabbitmq for asynchronous publishing and receiving requests from queue.
+request-queue is an implementation of message queue. It uses rabbitmq for asynchronous publishing and receiving requests from queue depending on provided request type.
+Requests are handled in different ways while being taken out from queue.
+Type1 - saves message to DB
+Type2 - rejects request
+Type3 - logs message to File
+Type4 - logs message to console
 
 ## Creating .jar file
 In order to create .jar file execute: mvn clean package
